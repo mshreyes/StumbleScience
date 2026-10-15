@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StumbleScience</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="intro-body">
+
+  <!-- Top-Right Theme Switcher -->
+  <header class="intro-header">
+    <div class="theme-switcher">
+      <button class="theme-btn" data-set-theme="light">Light</button>
+      <button class="theme-btn" data-set-theme="dark">Dark</button>
+      <button class="theme-btn" data-set-theme="sepia">Sepia</button>
+    </div>
+  </header>
+
+  <!-- Centered Main Intro Content -->
+  <main class="intro-main">
+    <h1 class="intro-title">StumbleScience</h1>
+
+    <div id="topic-container" class="topic-list"></div>
+
+    <button id="stumble-launch" class="stumble-big-btn">
+      <span>Stumble</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+        <path d="m12 5 7 7-7 7"></path>
+      </svg>
+    </button>
+  </main>
+
+  <script src="data.js"></script>
+  <script>
+    // Theme setup
+    const savedTheme = localStorage.getItem('stumblescience-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const themeBtns = document.querySelectorAll('.theme-btn');
+
+    function syncTheme(theme) {
+      themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.setTheme === theme));
+    }
+    syncTheme(savedTheme);
+
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.setTheme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('stumblescience-theme', theme);
+        syncTheme(theme);
+      });
+    });
+
+    // Render Topics
+    const topicContainer = document.getElementById('topic-container');
+    let selectedTopic = 'All';
+    const topics = ['All', ...Object.keys(SITE_DATA)];
+
+    function renderTopics() {
+      topicContainer.innerHTML = '';
+      topics.forEach(topic => {
+        const btn = document.createElement('button');
+        btn.className = 'topic-pill' + (topic === selectedTopic ? ' active' : '');
+        btn.textContent = topic;
+        btn.onclick = () => {
+          selectedTopic = topic;
+          renderTopics();
+        };
+        topicContainer.appendChild(btn);
+      });
+    }
+    renderTopics();
+
+    // Open Stumble Window
+    document.getElementById('stumble-launch').addEventListener('click', () => {
+      window.open(`stumble.html?topic=${encodeURIComponent(selectedTopic)}`, '_blank');
+    });
+  </script>
+</body>
+</html>

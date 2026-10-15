@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StumbleScience</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="viewer-body">
+
+  <!-- Top Control Bar -->
+  <header class="viewer-topbar">
+    <div class="bar-group">
+      <a href="index.html" class="viewer-brand">StumbleScience</a>
+      <select id="topic-select" class="viewer-select"></select>
+    </div>
+
+    <div class="bar-group">
+      <button id="next-btn" class="stumble-btn">Stumble ↻</button>
+      <a id="direct-link" href="#" target="_blank" rel="noopener noreferrer" class="bar-btn" title="Open site in new tab if blocked">
+        <span id="domain-label">Open Site</span> ↗
+      </a>
+    </div>
+
+    <div class="bar-group">
+      <button id="wiki-btn" class="bar-btn">Wikipedia Lookup</button>
+      <div class="theme-switcher">
+        <button class="theme-btn" data-set-theme="light">L</button>
+        <button class="theme-btn" data-set-theme="dark">D</button>
+        <button class="theme-btn" data-set-theme="sepia">S</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Full-Screen Stage with Rounded Borders -->
+  <main id="viewer-stage" class="viewer-stage">
+    
+    <!-- Primary Embedded Science Site -->
+    <div class="frame-wrapper">
+      <iframe id="site-frame" src="about:blank"></iframe>
+    </div>
+
+    <!-- Collapsible Wikipedia Lookup Panel -->
+    <aside id="wiki-panel" class="wiki-panel hidden">
+      <form id="wiki-form" class="wiki-bar">
+        <input type="text" id="wiki-input" placeholder="Search Wikipedia Lookup..." autocomplete="off" />
+        <button type="submit" class="stumble-btn">Search</button>
+      </form>
+      <iframe id="wiki-frame" src="https://en.m.wikipedia.org/wiki/Main_Page"></iframe>
+    </aside>
+
+  </main>
+
+  <script src="data.js"></script>
+  <script>
+    // Theme setup
+    const savedTheme = localStorage.getItem('stumblescience-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const themeBtns = document.querySelectorAll('.theme-btn');
+
+    function syncTheme(theme) {
+      themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.setTheme === theme));
+    }
+    syncTheme(savedTheme);
+
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.setTheme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('stumblescience-theme', theme);
+        syncTheme(theme);
+      });
+    });
+
+    // Topic & Randomizer setup
+    const params = new URLSearchParams(window.location.search);
+    let currentTopic = params.get('topic') || 'All';
+    let lastUrl = '';
+
+    const topicSelect = document.getElementById('topic-select');
+    ['All', ...Object.keys(SITE_DATA)].forEach(topic => {
+      const opt = document.createElement('option');
+      opt.value = topic;
+      opt.textContent = topic;
+      if (topic === currentTopic) opt.selected = true;
+      topicSelect.appendChild(opt);
+    });
+
+    function getUrls(topic) {
+      if (topic === 'All' || !SITE_DATA[topic]) {
+        return Object.values(SITE_DATA).flat();
+      }
+      return SITE_DATA[topic];
+    }
+
+    function loadRandomSite() {
+      const pool = getUrls(currentTopic);
+      if (!pool.length) return;
+
+      let nextUrl = pool[Math.floor(Math.random() * pool.length)];
+      if (pool.length > 1 && nextUrl === lastUrl) {
+        nextUrl = pool[(pool.indexOf(nextUrl) + 1) % pool.length];
+      }
+      lastUrl = nextUrl;
+
+      document.getElementById('site-frame').src = nextUrl;
+      document.getElementById('direct-link').href = nextUrl;
+
+      try {
+        const hostname = new URL(nextUrl).hostname.replace('www.', '');
+        document.getElementById('domain-label').textContent = hostname;
+      } catch {
+        document.getElementById('domain-label').textContent = 'Open Site';
+      }
+    }
+
+    topicSelect.addEventListener('change', (e) => {
+      currentTopic = e.target.value;
+      loadRandomSite();
+    });
+
+    document.getElementById('next-btn').addEventListener('click', loadRandomSite);
+
+    // Wikipedia Lookup Toggle & Search
+    const wikiBtn = document.getElementById('wiki-btn');
+    const wikiPanel = document.getElementById('wiki-panel');
+    const viewerStage = document.getElementById('viewer-stage');
+    const wikiForm = document.getElementById('wiki-form');
+    const wikiInput = document.getElementById('wiki-input');
+    const wikiFrame = document.getElementById('wiki-frame');
+
+    wikiBtn.addEventListener('click', () => {
+      const isHidden = wikiPanel.classList.toggle('hidden');
+      wikiBtn.classList.toggle('active', !isHidden);
+      viewerStage.classList.toggle('split', !isHidden);
+      if (!isHidden) wikiInput.focus();
+    });
+
+    wikiForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = wikiInput.value.trim();
+      if (q) {
+        wikiFrame.src = `https://en.m.wikipedia.org/w/index.php?search=${encodeURIComponent(q)}`;
+      }
+    });
+
+    loadRandomSite();
+  </script>
+</body>
+</html>
