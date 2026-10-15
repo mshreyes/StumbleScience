@@ -51,7 +51,7 @@ const SITE_DATA = {
   ],
 
   "Chemistry & Toxicology": [
-    // Structure Viewers, Periodic Tables & Cheminformatics
+    // Structure Viewers, Periodic Tables & Cheminformatics Hubs
     "https://molview.org",
     "https://ptable.com",
     "https://pubchem.ncbi.nlm.nih.gov",
@@ -62,14 +62,29 @@ const SITE_DATA = {
     "https://webbook.nist.gov/chemistry/",
     "https://www.chemspider.com",
     "https://zinc15.docking.org",
-    // Toxicology, Pathways & Environmental Fate
-    "https://aopwiki.org",
-    "https://ctdbase.org",
-    "https://toxric.bioinfotech.org",
-    "https://admetmesh.scbdd.com",
+    "https://www.hmdb.ca",
+    "https://www.lipidmaps.org",
+    "https://www.drugbank.com",
+    
+    // Cheminformatics Calculators, Descriptors & Property Predictors
+    "https://www.vcclab.org/lab/alogps/",
     "https://www.swissadme.ch",
     "https://www.swisstargetprediction.ch",
-    "https://www.vcclab.org",
+    "https://admetmesh.scbdd.com",
+    "https://toxric.bioinfotech.org",
+    "https://www.way2drug.com/passonline/",
+    "https://www.way2drug.com/tlc/",
+    "https://ochem.eu",
+    "https://qsar.food.dtu.dk",
+    "https://niwa.anat.dk/niwa/",
+    "https://www.toxplanet.com",
+
+    // Toxicity, Pathways & Environmental Fate
+    "https://aopwiki.org",
+    "https://ctdbase.org",
+    "https://www.epa.gov/tsca-screening-tools/epi-suitetm-estimation-program-interface",
+    "https://hmp2.org",
+
     // Open Chemistry Literature & Sims
     "https://chem.libretexts.org/Bookshelves/Environmental_Chemistry",
     "https://chem.libretexts.org/Bookshelves/Organic_Chemistry",
