@@ -9,7 +9,7 @@ A lightweight, StumbleUpon-inspired discovery tool for exploring open-access sci
 - **Themes:** Light, Dark, and Sepia modes.
 - **Easy Expansion:** All topics and URLs are managed in a single dictionary inside `data.js`.
 
-## Disclaimer & Copyright
+## Copyright disclaimer
 StumbleScience only embeds and links to publicly available educational and scientific websites (such as LibreTexts, PhET, Caltech, NASA, Wikipedia, and others). I do not own any of the external websites or content featured in this tool; all copyrights, trademarks, and intellectual property belong strictly to their respective owners and institutions.
 
 ## Credits
