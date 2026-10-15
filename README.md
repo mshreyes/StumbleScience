@@ -1,6 +1,6 @@
 # StumbleScience
 
-A lightweight, StumbleUpon-inspired discovery tool for exploring open-access science resources, interactive simulations, open textbooks, and courseware.
+A lightweight, StumbleUpon-inspired discovery tool for exploring open-access science resources.
 
 ## Features
 - **Topic Filtering:** Browse across curated categories or stumble through all subjects at once.
