@@ -11,14 +11,22 @@
   <!-- Top Control Bar -->
   <header class="viewer-topbar">
     <div class="bar-group">
-      <a href="index.html" class="viewer-brand">StumbleScience</a>
-      <select id="topic-select" class="viewer-select"></select>
+      <a href="index.html" class="viewer-brand">
+        <span class="brand-dot"></span>
+        <span>StumbleScience</span>
+      </a>
+      <select id="topic-select" class="viewer-select" aria-label="Topic Filter"></select>
     </div>
 
-    <div class="bar-group">
-      <button id="next-btn" class="stumble-btn">Stumble ↻</button>
-      <a id="direct-link" href="#" target="_blank" rel="noopener noreferrer" class="bar-btn" title="Open site in new tab if blocked">
-        <span id="domain-label">Open Site</span> ↗
+    <!-- Center Floating Dock -->
+    <div class="bar-center-dock">
+      <button id="next-btn" class="stumble-btn">
+        <span>Stumble</span>
+        <span class="spin-icon">↻</span>
+      </button>
+      <a id="direct-link" href="#" target="_blank" rel="noopener noreferrer" class="domain-pill" title="Open site in new tab">
+        <span id="domain-label">Loading...</span>
+        <span class="ext-arrow">↗</span>
       </a>
     </div>
 
